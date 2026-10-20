@@ -34,11 +34,21 @@ public class JugadorEstado : MonoBehaviour
             Debug.Log("¡Game Over! El jugador se quedó sin salud.");
         }
     }
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Dato"))
+        {
+            SumarPuntos(10);
+            Destroy(other.gameObject);
+        }
+    }
     public void SumarPuntos(int cantidad)
     {
         puntuacion += cantidad;
 
         Debug.Log("Puntuacion actual: " + puntuacion);
     }
+
+   
+
 }
