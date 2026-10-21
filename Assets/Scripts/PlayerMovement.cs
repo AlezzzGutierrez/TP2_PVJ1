@@ -1,7 +1,7 @@
 
 using UnityEngine;
 using System.Collections;
-
+using TMPro;
 public class PlayerMovements : MonoBehaviour
 {
     [Header("Movement Settings")]
@@ -18,6 +18,15 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] private Transform puntoInteraccion;
     [SerializeField] private float distanciaInteraccion = 3f;
     [SerializeField] private LayerMask capaInteractiva;
+
+    [Header("Dash")]
+    [SerializeField] private float multiplicadorDash = 4f;
+    [SerializeField] private float duracionDash = 0.2f;
+    [SerializeField] private float cooldownDash = 3f;
+    [SerializeField] private TextMeshProUGUI textoCooldownDash;
+    private bool haciendoDash = false;
+    private bool puedeUsarDash = true;
+    private Vector3 direccionDash;
     private Rigidbody rb;
     private bool enSuelo;
 
@@ -33,11 +42,33 @@ public class PlayerMovements : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
 
         Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+        direccion = Vector3.ClampMagnitude(direccion, 1f);
 
-        transform.Translate(
-            direccion * velocidad * Time.deltaTime,
-            Space.World
-        );
+        // Activar el dash con Shift izquierdo
+        if (Input.GetKeyDown(KeyCode.LeftShift) && puedeUsarDash)
+        {
+            direccionDash = direccion.sqrMagnitude > 0.01f
+                ? direccion.normalized
+                : transform.forward;
+
+            StartCoroutine(RealizarDash());
+        }
+
+        // Movimiento normal o dash
+        if (haciendoDash)
+        {
+            transform.Translate(
+                direccionDash * velocidad * multiplicadorDash * Time.deltaTime,
+                Space.World
+            );
+        }
+        else
+        {
+            transform.Translate(
+                direccion * velocidad * Time.deltaTime,
+                Space.World
+            );
+        }
 
         // Comprobar si hay suelo debajo del jugador
         enSuelo = Physics.Raycast(
@@ -56,7 +87,7 @@ public class PlayerMovements : MonoBehaviour
             );
         }
 
-        // Mostrar el Raycast en la ventana Scene
+        
         Debug.DrawRay(
             puntoChequeoSuelo.position,
             Vector3.down * distanciaSuelo,
@@ -103,7 +134,35 @@ public class PlayerMovements : MonoBehaviour
         velocidad = velocidadOriginal;
         Debug.Log("Velocidad restaurada a: " + velocidad);
     }
+    private IEnumerator RealizarDash()
+    {
+        puedeUsarDash = false;
+        haciendoDash = true;
 
+        if (textoCooldownDash != null)
+            textoCooldownDash.text = "DASH!";
+
+        yield return new WaitForSeconds(duracionDash);
+
+        haciendoDash = false;
+
+        float tiempoRestante = cooldownDash;
+
+        while (tiempoRestante > 0)
+        {
+            if (textoCooldownDash != null)
+                textoCooldownDash.text = "Recarga: " +
+                    tiempoRestante.ToString("F1") + " s";
+
+            yield return new WaitForSeconds(0.1f);
+            tiempoRestante -= 0.1f;
+        }
+
+        puedeUsarDash = true;
+
+        if (textoCooldownDash != null)
+            textoCooldownDash.text = "Dash Listo";
+    }
     private void OnDrawGizmos()
     {
         if (puntoChequeoSuelo == null)

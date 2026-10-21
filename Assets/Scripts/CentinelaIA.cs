@@ -14,7 +14,8 @@ public class CentinelaIA : MonoBehaviour
     private NavMeshAgent agente;
     private Transform destinoActual;
     private bool persiguiendo = false;
-
+    [Header("Ataque")]
+    [SerializeField] private int dano = 20;
     void Start()
     {
         agente = GetComponent<NavMeshAgent>();
@@ -58,5 +59,19 @@ public class CentinelaIA : MonoBehaviour
     {
         persiguiendo = false;
         Debug.Log("Jugador fuera de la zona. Volviendo a patrullar.");
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            PlayerState estadoJugador =
+                collision.gameObject.GetComponent<PlayerState>();
+
+            if (estadoJugador != null)
+            {
+                estadoJugador.RecibirDano(dano);
+            }
+        }
     }
 }
