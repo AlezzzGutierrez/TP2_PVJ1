@@ -1,17 +1,23 @@
 
 using UnityEngine;
+using System;
 
 public class GameManager : MonoBehaviour
 {
     public enum EstadoJuego
     {
+
         Inicio,
         Jugando,
         Pausa,
         Victoria,
         Derrota
-    }
 
+    }
+    // Eventos del juego
+    public event Action<EstadoJuego> OnEstadoCambiado;
+    public event Action OnVictoria;
+    public event Action OnDerrota;
     [Header("Estado del juego")]
     [SerializeField] private EstadoJuego estadoActual = EstadoJuego.Inicio;
 
@@ -46,9 +52,13 @@ public class GameManager : MonoBehaviour
 
     public void CambiarEstado(EstadoJuego nuevoEstado)
     {
+        // Evitar notificar si el estado no cambió
+        if (estadoActual == nuevoEstado)
+            return;
+
         estadoActual = nuevoEstado;
 
-        // Congelar el tiempo en pausa, inicio y estados finales
+        // Controlar el tiempo
         if (estadoActual == EstadoJuego.Jugando)
         {
             Time.timeScale = 1f;
@@ -59,23 +69,28 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.Log("Estado del juego: " + estadoActual);
-    }
 
-    public void NotificarVidaYPuntaje(int vida, int puntaje)
-    {
-        Debug.Log(
-            "Vida actual: " + vida +
-            " | Puntaje: " + puntaje
-        );
+        // Notificar a los suscriptores
+        OnEstadoCambiado?.Invoke(estadoActual);
     }
 
     public void DeclararVictoria()
     {
+        if (estadoActual == EstadoJuego.Victoria ||
+            estadoActual == EstadoJuego.Derrota)
+            return;
+
         CambiarEstado(EstadoJuego.Victoria);
+        OnVictoria?.Invoke();
     }
 
     public void DeclararDerrota()
     {
+        if (estadoActual == EstadoJuego.Victoria ||
+            estadoActual == EstadoJuego.Derrota)
+            return;
+
         CambiarEstado(EstadoJuego.Derrota);
+        OnDerrota?.Invoke();
     }
 }
