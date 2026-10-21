@@ -14,6 +14,8 @@ public class PlayerState : MonoBehaviour
     [SerializeField] private int puntuacion = 0;
     [SerializeField] private TextMeshProUGUI textoPuntos;
 
+    [Header("Game Manager")]
+    [SerializeField] private GameManager gameManager;
     void Start()
     {
         saludActual = saludMaxima;
@@ -29,6 +31,10 @@ public class PlayerState : MonoBehaviour
 
     public void RecibirDano(int cantidad)
     {
+        // No recibir más daño después de perder
+        if (saludActual <= 0)
+            return;
+
         saludActual -= cantidad;
 
         if (saludActual < 0)
@@ -40,29 +46,29 @@ public class PlayerState : MonoBehaviour
 
         if (saludActual <= 0)
         {
-            saludActual = 0;
-
-            Debug.Log("¡DERROTA! El jugador se quedó sin vida.");
+            gameManager.DeclararDerrota();
         }
+
+        Debug.Log("Salud actual: " + saludActual);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Dato"))
-        {
-            SumarPuntos(10);
-            Destroy(other.gameObject);
-        }
-    }
 
     public void SumarPuntos(int cantidad)
     {
+        // Evitar seguir sumando después de ganar
+        if (puntuacion >= 100)
+            return;
+
         puntuacion += cantidad;
 
         if (puntuacion >= 100)
         {
             puntuacion = 100;
-            Debug.Log("¡VICTORIA! ¡Conseguiste 100 puntos!");
+
+            if (gameManager != null)
+            {
+                gameManager.DeclararVictoria();
+            }
         }
 
         ActualizarHUD();
