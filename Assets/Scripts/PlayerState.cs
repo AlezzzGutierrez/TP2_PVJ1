@@ -37,6 +37,13 @@ public class PlayerState : MonoBehaviour
         }
 
         ActualizarBarraSalud();
+
+        if (saludActual <= 0)
+        {
+            saludActual = 0;
+
+            Debug.Log("¡DERROTA! El jugador se quedó sin vida.");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -51,6 +58,12 @@ public class PlayerState : MonoBehaviour
     public void SumarPuntos(int cantidad)
     {
         puntuacion += cantidad;
+
+        if (puntuacion >= 100)
+        {
+            puntuacion = 100;
+            Debug.Log("¡VICTORIA! ¡Conseguiste 100 puntos!");
+        }
 
         ActualizarHUD();
 
