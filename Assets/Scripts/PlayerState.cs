@@ -44,7 +44,7 @@ public class PlayerState : MonoBehaviour
 
         ActualizarBarraSalud();
 
-        if (saludActual <= 0)
+        if (saludActual <= 0 && gameManager != null)
         {
             gameManager.DeclararDerrota();
         }

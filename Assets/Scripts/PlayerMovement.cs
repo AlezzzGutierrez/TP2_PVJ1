@@ -20,10 +20,14 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] private LayerMask capaInteractiva;
 
     [Header("Dash")]
-    [SerializeField] private float multiplicadorDash = 4f;
+    [SerializeField] private float velocidadDash = 20f;
     [SerializeField] private float duracionDash = 0.2f;
     [SerializeField] private float cooldownDash = 3f;
     [SerializeField] private TextMeshProUGUI textoCooldownDash;
+
+    [Header("Arma de aturdimiento")]
+    [SerializeField] private LayerMask capaEnemigo;
+    [SerializeField] private float distanciaAturdimiento = 5f;
     private bool haciendoDash = false;
     private bool puedeUsarDash = true;
     private Vector3 direccionDash;
@@ -38,6 +42,7 @@ public class PlayerMovements : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("Update se está ejecutando");
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
@@ -58,7 +63,7 @@ public class PlayerMovements : MonoBehaviour
         if (haciendoDash)
         {
             transform.Translate(
-                direccionDash * velocidad * multiplicadorDash * Time.deltaTime,
+                direccionDash * velocidadDash * Time.deltaTime,
                 Space.World
             );
         }
@@ -116,12 +121,50 @@ public class PlayerMovements : MonoBehaviour
                 Debug.Log("¡Interactuaste con: " + hit.collider.name + "!");
             }
         }
-
+        Debug.DrawRay(
+        puntoInteraccion.position,
+        puntoInteraccion.forward * distanciaAturdimiento,
+         Color.magenta
+           );
         Debug.DrawRay(
             puntoInteraccion.position,
             puntoInteraccion.forward * distanciaInteraccion,
             Color.cyan
         );
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Debug.DrawRay(
+                puntoInteraccion.position,
+                puntoInteraccion.forward * distanciaAturdimiento,
+                Color.red,
+                5f
+            );
+
+            RaycastHit hitAturdimiento;
+
+            
+            if (Physics.Raycast(
+                puntoInteraccion.position,
+                puntoInteraccion.forward,
+                out hitAturdimiento,
+                distanciaAturdimiento))
+            {
+                CentinelaIA centinela =
+                    hitAturdimiento.collider.GetComponentInParent<CentinelaIA>();
+
+                if (centinela != null)
+                {
+                    centinela.Aturdir();
+                    Debug.Log("¡Centinela aturdido!");
+                }
+            }
+            else
+            {
+                Debug.Log("No hay ningún collider delante del jugador.");
+            }
+        }
+
     }
 
     public void CambiarVelocidad(float nuevaVelocidad)
@@ -165,17 +208,29 @@ public class PlayerMovements : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        if (puntoChequeoSuelo == null)
-            return;
+        // Raycast del suelo
+        if (puntoChequeoSuelo != null)
+        {
+            Gizmos.color = Color.yellow;
 
-        Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(
+                puntoChequeoSuelo.position,
+                puntoChequeoSuelo.position + Vector3.down * distanciaSuelo
+            );
 
-        Gizmos.DrawLine(
-            puntoChequeoSuelo.position,
-            puntoChequeoSuelo.position + Vector3.down * distanciaSuelo
-        );
+            Gizmos.DrawSphere(puntoChequeoSuelo.position, 0.04f);
+        }
 
-        Gizmos.DrawSphere(puntoChequeoSuelo.position, 0.04f);
+        // Raycast del arma de aturdimiento
+        if (puntoInteraccion != null)
+        {
+            Gizmos.color = Color.red;
+
+            Gizmos.DrawRay(
+                puntoInteraccion.position,
+                puntoInteraccion.forward * distanciaAturdimiento
+            );
+        }
     }
 
 }
