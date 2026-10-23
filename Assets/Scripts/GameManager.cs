@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
     public void CambiarEstado(EstadoJuego nuevoEstado)
     {
         // Evitar notificar si el estado no cambió
@@ -58,14 +59,33 @@ public class GameManager : MonoBehaviour
 
         estadoActual = nuevoEstado;
 
-        // Controlar el tiempo
-        if (estadoActual == EstadoJuego.Jugando)
+        // Controlar el tiempo según el estado
+        switch (estadoActual)
         {
-            Time.timeScale = 1f;
-        }
-        else
-        {
-            Time.timeScale = 0f;
+            case EstadoJuego.Inicio:
+                Time.timeScale = 0f;
+                Debug.Log("Esperando que comience la partida.");
+                break;
+
+            case EstadoJuego.Jugando:
+                Time.timeScale = 1f;
+                Debug.Log("¡La partida comenzó!");
+                break;
+
+            case EstadoJuego.Pausa:
+                Time.timeScale = 0f;
+                Debug.Log("Partida pausada.");
+                break;
+
+            case EstadoJuego.Victoria:
+                Time.timeScale = 0f;
+                Debug.Log("¡Victoria!");
+                break;
+
+            case EstadoJuego.Derrota:
+                Time.timeScale = 0f;
+                Debug.Log("Derrota.");
+                break;
         }
 
         Debug.Log("Estado del juego: " + estadoActual);
@@ -73,7 +93,6 @@ public class GameManager : MonoBehaviour
         // Notificar a los suscriptores
         OnEstadoCambiado?.Invoke(estadoActual);
     }
-
     public void DeclararVictoria()
     {
         if (estadoActual == EstadoJuego.Victoria ||

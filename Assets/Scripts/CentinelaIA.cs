@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 public class CentinelaIA : MonoBehaviour
 {
@@ -16,16 +17,34 @@ public class CentinelaIA : MonoBehaviour
     private bool persiguiendo = false;
     [Header("Ataque")]
     [SerializeField] private int dano = 20;
+
+    [Header("Aturdimiento")]
+    [SerializeField] private bool aturdido = false;
+    [SerializeField] private float duracionAturdimiento = 3f;
+
+    [Header("Efecto visual")]
+    [SerializeField] private Renderer renderizador;
+    [SerializeField] private Color colorAturdido = Color.cyan;
+
+    private Color colorOriginal;
+    private Material materialEnemigo;
     void Start()
     {
         agente = GetComponent<NavMeshAgent>();
-
+        if (renderizador != null)
+        {
+            materialEnemigo = renderizador.material;
+            colorOriginal = materialEnemigo.color;
+        }
         destinoActual = puntoA;
         agente.SetDestination(destinoActual.position);
     }
 
     void Update()
     {
+        if (aturdido)
+            return;
+
         if (persiguiendo)
         {
             agente.SetDestination(jugador.position);
@@ -35,7 +54,6 @@ public class CentinelaIA : MonoBehaviour
             Patrullar();
         }
     }
-
     void Patrullar()
     {
         if (!agente.pathPending &&
@@ -74,4 +92,54 @@ public class CentinelaIA : MonoBehaviour
             }
         }
     }
+
+    public void Aturdir()
+    {
+        if (aturdido)
+            return;
+
+        StartCoroutine(Aturdimiento());
+    }
+
+
+    private IEnumerator Aturdimiento()
+    {
+        aturdido = true;
+
+        // Detener al centinela y cancelar su ruta actual
+        agente.isStopped = true;
+        agente.ResetPath();
+        if (materialEnemigo != null)
+        {
+            materialEnemigo.color = colorAturdido;
+        }
+        Debug.Log("¡Centinela aturdido!");
+
+        // Esperar el tiempo de aturdimiento
+        yield return new WaitForSeconds(duracionAturdimiento);
+
+        // Comprobar que el agente siga disponible
+        if (agente != null && agente.isActiveAndEnabled)
+        {
+            aturdido = false;
+            agente.isStopped = false;
+
+            // Reanudar la persecución o la patrulla
+            if (persiguiendo && jugador != null)
+            {
+                agente.SetDestination(jugador.position);
+            }
+            else if (destinoActual != null)
+            {
+                agente.SetDestination(destinoActual.position);
+            }
+        }
+        if (materialEnemigo != null)
+        {
+            materialEnemigo.color = colorOriginal;
+        }
+        Debug.Log("El centinela se recuperó del aturdimiento.");
+    }
+
+
 }
