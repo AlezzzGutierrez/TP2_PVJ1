@@ -5,7 +5,7 @@
 
 **Desarrolladora:** Gianella Alexandra Gutierrez · **LU:** TUV000800
 
-**Versión de Unity:** Unity 6.5
+**Versión de Unity:** Unity 6000.5.8f1
 
 ## Vista general del nivel
 
