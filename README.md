@@ -9,7 +9,8 @@
 
 ## Vista general del nivel
 
-![Vista general del nivel](Capturas/nivel.png)
+![Vista general del nivel](Images/1.png)
+![Vista general del nivel](Images/2.png)
 
 ## Descripción del juego
 
@@ -95,27 +96,6 @@ Objeto recolectable que permite al jugador evitar la detección de los centinela
 
 Zona del escenario que reduce la velocidad del jugador mientras permanece dentro de sus límites. Obliga a buscar una ruta alternativa o utilizar el dash estratégicamente para escapar de los enemigos.
 
-
-
-## Capturas del juego
-
-### Vista general del nivel
-
-![Vista general del nivel](Capturas/nivel.png)
-
-### Jugador y centinelas
-
-![Jugador y centinelas](Capturas/centinelas.png)
-
-### Power-up de invisibilidad
-
-![Power-up de invisibilidad](Capturas/invisibilidad.png)
-
-### Partida en ejecución
-
-![Partida en ejecución](Capturas/partida.png)
-
-## Cómo abrir y ejecutar el proyecto
 
 1. Clonar el repositorio:
 
