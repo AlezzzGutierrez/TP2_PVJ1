@@ -3,7 +3,7 @@
 **Trabajo Práctico de Programación de Videojuegos I**  
 *Tecnicatura Universitaria en Diseño Integral de Videojuegos — Facultad de Ingeniería, UNJu*
 
-**Desarrolladora:** Gianella Alexandra Gutierrez · **LU:** TUDIVJ00080
+**Desarrolladora:** Gianella Alexandra Gutierrez · **LU:** TUV000800
 
 **Versión de Unity:** Unity 6.5
 
