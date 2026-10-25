@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 8224772437192787178}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 250.5324, y: 2.5688, z: 1457.1719}
-  m_LocalScale: {x: 12.710211, y: 9.4593, z: 8.204051}
+  m_LocalPosition: {x: 250.5324, y: 1, z: 1457.1719}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -125,4 +125,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2c4da99bbd928749b4dabb70d25eb14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZonaBarro
-  velocidadReducida: 15
+  velocidadReducida: 6
