@@ -3,27 +3,30 @@
 **Trabajo Práctico de Programación de Videojuegos I**  
 *Tecnicatura Universitaria en Diseño Integral de Videojuegos — Facultad de Ingeniería, UNJu*
 
-**Desarrolladora:** Gianella Gutierrez · **LU:** TUDIVJ00080
+**Desarrolladora:** Gianella Alexandra Gutierrez · **LU:** TUDIVJ00080
 
 **Versión de Unity:** Unity 6.5
 
 ## Vista general del nivel
 
-
+![Vista general del nivel](Capturas/nivel.png)
 
 ## Descripción del juego
 
 *Burla de Centinelas* es un prototipo de videojuego 3D de exploración, supervivencia y evasión, desarrollado en Unity.
 
-El jugador debe recorrer el escenario y recolectar **100 datos** mientras intenta escapar de los centinelas que patrullan el área y persiguen al detectar su presencia. El jugador debe administrar sus habilidades y aprovechar los elementos del entorno para evitar ser alcanzado.
+El jugador debe recorrer el escenario y recolectar **100 datos** mientras intenta escapar de los centinelas que patrullan el área y lo persiguen al detectar su presencia. Para sobrevivir, debe administrar sus habilidades y aprovechar los elementos del entorno.
 
 **Objetivo:** recolectar 100 datos para alcanzar la victoria y evitar que los centinelas derroten al jugador.
 
 **Peligros:** los centinelas pueden patrullar y perseguir al jugador. Además, el escenario contiene una zona de barro que reduce considerablemente su velocidad, facilitando que los enemigos lo alcancen.
 
-**Ayudas:** el jugador dispone de un dash para desplazarse rápidamente y escapar de situaciones peligrosas. También puede recoger un power-up de invisibilidad que dificulta que los centinelas lo detecten durante un tiempo limitado de 5 segundos.
+**Habilidades y ayudas:**
+- **Dash:** permite desplazarse rápidamente para escapar de situaciones peligrosas.
+- **Invisibilidad:** al recoger un power-up, el jugador se vuelve invisible durante **5 segundos**, dificultando que los centinelas lo detecten.
+- **Aturdimiento:** permite aturdir a los centinelas durante **5 segundos**, deteniendo temporalmente sus movimientos y dando al jugador una oportunidad para escapar.
 
-La estrategia es fundamental: utilizar el dash en el momento adecuado y aprovechar la invisibilidad puede marcar la diferencia entre escapar y ser atrapado.
+La estrategia es fundamental: utilizar el dash en el momento adecuado, aprovechar la invisibilidad y aturdir a los centinelas en situaciones de peligro puede marcar la diferencia entre escapar y ser atrapado.
 
 ## Guía de controles
 
@@ -36,7 +39,6 @@ La estrategia es fundamental: utilizar el dash en el momento adecuado y aprovech
 | `Enter` | Iniciar la partida |
 | `Esc` | Pausar o reanudar el juego |
 
-## Requisitos obligatorios
 
 ## Scripts del proyecto
 
@@ -78,19 +80,18 @@ El proyecto utiliza scripts desarrollados en C# para implementar el movimiento d
 
 ## Detalle de opcionales elegidos
 
-### Opción 1 · Dash
+### Opción A · Arma por Raycast
 
-Habilidad que permite al jugador desplazarse rápidamente para escapar de los centinelas y atravesar zonas peligrosas. Su uso debe planificarse debido a su tiempo de reutilización.
+Habilidad que permite al jugador aturdir a los centinelas mediante un disparo detectado con **Raycast**, utilizando la tecla **F**. Al acertar, el centinela queda inmovilizado durante **5 segundos**, dando al jugador una oportunidad para escapar o avanzar sin ser perseguido.
 
 
-
-### Opción 2 · Power-up de invisibilidad
+### Opción B · Power-up de invisibilidad
 
 Objeto recolectable que permite al jugador evitar la detección de los centinelas durante 5 segundos, facilitando el escape en situaciones de riesgo.
 
 
 
-### Opción 3 · Zona de desaceleración (barro)
+### Opción D · Zona de desaceleración (barro)
 
 Zona del escenario que reduce la velocidad del jugador mientras permanece dentro de sus límites. Obliga a buscar una ruta alternativa o utilizar el dash estratégicamente para escapar de los enemigos.
 
