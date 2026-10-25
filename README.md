@@ -9,9 +9,9 @@
 
 ## Vista general del nivel
 
-![Vista general del nivel](Images/1.png)
+![Vista general del nivel](Assets/Images/1.png)
 
-![Vista general del nivel](Images/2.png)
+![Vista general del nivel](Assets/Images/2.png)
 
 ## Descripción del juego
 
