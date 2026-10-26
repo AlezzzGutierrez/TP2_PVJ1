@@ -117,3 +117,5 @@ Zona del escenario que reduce la velocidad del jugador mientras permanece dentro
 - Unity 6
 - C#
 - Git y GitHub
+
+**Nota para el profesor:** Los commits realizados después del horario de entrega corresponden únicamente a la corrección de un problema con Git que dañaba el archivo del Terrain al clonar el repositorio. No se realizaron cambios nuevos en el desarrollo del trabajo, sino que se buscó solucionar este error para que el proyecto pudiera descargarse y ejecutarse correctamente.
